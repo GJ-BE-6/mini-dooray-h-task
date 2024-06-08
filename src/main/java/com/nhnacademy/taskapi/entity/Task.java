@@ -40,8 +40,15 @@ public class Task {
     private String userId;
 
     // todo Task : task_tags, comments @OneToMany mapped
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
+    private List<TaskTag> taskTags;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     // todo Task : milestones @OneToOne mapped
+    @OneToOne(mappedBy = "task", cascade = CascadeType.REMOVE)
+    private Milestone milestones;
 
     public Task(String name, String description, String status, Project project, String userId) {
         this.name = name;

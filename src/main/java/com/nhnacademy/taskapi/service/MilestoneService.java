@@ -8,11 +8,13 @@ import com.nhnacademy.taskapi.entity.Task;
 import com.nhnacademy.taskapi.repository.MilestoneRepository;
 import com.nhnacademy.taskapi.repository.ProjectRepository;
 import com.nhnacademy.taskapi.repository.TaskRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class MilestoneService {
     @Autowired
@@ -65,6 +67,8 @@ public class MilestoneService {
 
     public void deleteMilestoneFromTask(long milestoneId, long taskId) {
         Milestone milestone = milestoneRepository.findById(milestoneId).orElseThrow();
+
+        log.info("getTask.getid : {}, taskId : {}", milestone.getTask().getId(), taskId);
         if (milestone.getTask().getId() == taskId) {
             milestone.setTask(null);
         }

@@ -1,21 +1,25 @@
 package com.nhnacademy.taskapi.service;
 
+import com.nhnacademy.taskapi.dto.TagDTO;
 import com.nhnacademy.taskapi.dto.TaskDto;
+import com.nhnacademy.taskapi.entity.Milestone;
 import com.nhnacademy.taskapi.entity.Project;
+import com.nhnacademy.taskapi.entity.Tag;
 import com.nhnacademy.taskapi.entity.Task;
 import com.nhnacademy.taskapi.entity.pk.ProjectMemberPk;
-import com.nhnacademy.taskapi.repository.ProjectMemberRepository;
-import com.nhnacademy.taskapi.repository.ProjectRepository;
-import com.nhnacademy.taskapi.repository.TaskRepository;
+import com.nhnacademy.taskapi.repository.*;
 import com.nhnacademy.taskapi.dto.TaskCreateDto;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TaskService {
@@ -23,6 +27,11 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectRepository projectRepository;
+    private final TagRepository tagRepository;
+    private final MilestoneService milestoneService;
+    private final TagService tagService;
+    private final MilestoneRepository milestoneRepository;
+    private final EntityManager entityManager;
 
     // Task 등록 (projectId를 가지고)
     @Transactional
@@ -63,8 +72,23 @@ public class TaskService {
     @Transactional
     public void deleteTask(Long taskId) {
 
-        taskRepository.findById(taskId)
+        Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        // tag 연결 해제
+        List<Tag> tags = tagRepository.findAllByProjectId(task.getProject().getId());
+        for (Tag tag : tags) {
+            tagService.deleteTagFromTask(taskId, tag.getId());
+//            log.info("Delete tagId: {}", );
+        }
+
+        // milestone 연결 해제
+        Milestone milestone = milestoneRepository.findMilestoneByTaskId(taskId);
+        milestoneService.deleteMilestoneFromTask(milestone.getId(), taskId);
+        log.info("milestone get task : {}", milestone.getTask());
+
+        entityManager.flush();
+        entityManager.clear();
 
         taskRepository.deleteById(taskId);
     }
