@@ -6,8 +6,7 @@ Content-Type: application/json
 
 {
   "userId": "test-user2",
-  "content": "댓글을 쓰자2222",
-  "taskId": 1
+  "content": "cc"
 }
 
 ### get comments (taskId)
