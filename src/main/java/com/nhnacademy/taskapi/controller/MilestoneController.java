@@ -2,12 +2,14 @@ package com.nhnacademy.taskapi.controller;
 
 import com.nhnacademy.taskapi.dto.MilestoneDTO;
 import com.nhnacademy.taskapi.entity.Milestone;
+import com.nhnacademy.taskapi.entity.Task;
 import com.nhnacademy.taskapi.service.MilestoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 public class MilestoneController {
@@ -18,10 +20,12 @@ public class MilestoneController {
     public ResponseEntity<MilestoneDTO> getMilestone(@PathVariable Long milestoneId) {
         Milestone milestone = milestoneService.getMilestone(milestoneId);
         MilestoneDTO resp = MilestoneDTO.builder()
+                .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .milestoneName(milestone.getName())
                 .startDate(milestone.getStartDate())
                 .dueDate(milestone.getDueDate())
+                .taskId(Optional.ofNullable(milestone.getTask()).map(Task::getId).orElse(null))
                 .build();
         return ResponseEntity.ok(resp);
     }
@@ -30,6 +34,7 @@ public class MilestoneController {
     public ResponseEntity<MilestoneDTO> createMilestone(@RequestBody MilestoneDTO milestoneDTO) {
         Milestone milestone = milestoneService.createMilestone(milestoneDTO);
         MilestoneDTO resp = MilestoneDTO.builder()
+                .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .milestoneName(milestone.getName())
                 .startDate(milestone.getStartDate())
@@ -42,6 +47,7 @@ public class MilestoneController {
     public ResponseEntity<MilestoneDTO> updateMilestone(@PathVariable("milestoneId") Long milestoneId, @RequestBody MilestoneDTO milestoneDTO) {
         Milestone milestone = milestoneService.updateMilestone(milestoneId, milestoneDTO);
         MilestoneDTO resp = MilestoneDTO.builder()
+                .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .milestoneName(milestone.getName())
                 .startDate(milestone.getStartDate())
@@ -60,6 +66,7 @@ public class MilestoneController {
     public ResponseEntity<MilestoneDTO> setMilestoneToTask(@PathVariable("milestoneId") Long milestoneId, @PathVariable("taskId") Long taskId) {
         Milestone milestone = milestoneService.setMileStoneToTask(taskId, milestoneId);
         MilestoneDTO resp = MilestoneDTO.builder()
+                .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .milestoneName(milestone.getName())
                 .startDate(milestone.getStartDate())
@@ -79,10 +86,12 @@ public class MilestoneController {
     public ResponseEntity<List<MilestoneDTO>> getMilestones(@PathVariable("projectId") Long projectId) {
         List<MilestoneDTO> resp = milestoneService.getMilestoneByProjectId(projectId).stream()
                 .map(milestone -> MilestoneDTO.builder()
+                        .milestoneId(milestone.getId())
                         .projectId(milestone.getProject().getId())
                         .milestoneName(milestone.getName())
                         .startDate(milestone.getStartDate())
                         .dueDate(milestone.getDueDate())
+                        .taskId(Optional.ofNullable(milestone.getTask()).map(Task::getId).orElse(null))
                         .build())
                 .toList();
         return ResponseEntity.ok(resp);
@@ -92,11 +101,12 @@ public class MilestoneController {
     public ResponseEntity<MilestoneDTO> getMilestoneByTaskId(@PathVariable("taskId") Long taskId) {
         Milestone milestone = milestoneService.getMilestoneByTaskId(taskId);
         MilestoneDTO resp = MilestoneDTO.builder()
+                .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .milestoneName(milestone.getName())
                 .startDate(milestone.getStartDate())
                 .dueDate(milestone.getDueDate())
-                .taskId(milestone.getTask().getId())
+                .taskId(Optional.ofNullable(milestone.getTask()).map(Task::getId).orElse(null))
                 .build();
         return ResponseEntity.ok(resp);
     }
