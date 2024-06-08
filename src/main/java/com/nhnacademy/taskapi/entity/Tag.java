@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -22,11 +25,15 @@ public class Tag {
 
     @Setter
     @ManyToOne(optional = false)
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(nullable = false, name = "project_id")
     private Project project;
+
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
+    private List<TaskTag> taskTags = new ArrayList<>();
 
     // todo Tag : task_tags @OneToMany mapped
 
+    // todo Tag : 생성자 생성
     public Tag(String name, Project project) {
         this.name = name;
         this.project = project;

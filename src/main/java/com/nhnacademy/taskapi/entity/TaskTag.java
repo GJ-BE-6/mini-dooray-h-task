@@ -18,13 +18,13 @@ public class TaskTag {
     @Setter
     @MapsId("tagId")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "tag_id", nullable = false)
+    @JoinColumn(nullable = false, name = "tag_id")
     private Tag tag;
 
     @Setter
     @MapsId("taskId")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(nullable = false, name = "task_id")
     private Task task;
 
     public TaskTag(Tag tag, Task task) {

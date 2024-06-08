@@ -37,7 +37,7 @@ public class Project {
     private List<Tag> tags;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
-    private List<MileStone> mileStones;
+    private List<Milestone> milestones;
 
     public Project(String name, String status) {
         this.name = name;

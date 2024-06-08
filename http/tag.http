@@ -1,0 +1,51 @@
+### create tag
+POST http://localhost:8080/tags
+Content-Type: application/json
+
+{
+  "tagName" : "완성",
+  "projectId" : 1
+}
+
+### update tag
+@tagId = 4
+PUT http://localhost:8080/tags/{{tagId}}
+Content-Type: application/json
+
+{
+  "tagName" : "complete",
+  "projectId" : 1
+}
+
+### delete tag
+DELETE http://localhost:8080/tags/{{tagId}}
+
+
+
+
+### get tags (projectId)
+@projectId =1
+GET http://localhost:8080/tags/{{projectId}}
+
+### get tags (taskId)
+@taskId =1
+GET http://localhost:8080/task-tags/{{taskId}}
+
+### task에 tag 등록
+POST http://localhost:8080/task-tags
+Content-Type: application/json
+
+{
+  "taskId": 1,
+  "tagId": 5
+}
+
+### task에 tag 삭제
+DELETE http://localhost:8080/task-tags
+Content-Type: application/json
+
+{
+  "taskId": 1,
+  "tagId": 4
+}
+

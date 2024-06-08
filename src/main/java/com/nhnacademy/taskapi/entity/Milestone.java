@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "milestones")
-public class MileStone {
+public class Milestone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class MileStone {
     @JoinColumn(name = "task_id")
     private Task task;
 
-    public MileStone(String name, ZonedDateTime startDate,ZonedDateTime dueDate, Project project, Task task) {
+    public Milestone(String name, ZonedDateTime startDate, ZonedDateTime dueDate, Project project, Task task) {
         this.name = name;
         this.startDate = startDate;
         this.dueDate = dueDate;
