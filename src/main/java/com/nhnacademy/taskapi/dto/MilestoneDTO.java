@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 @Data
 @Builder
 public class MilestoneDTO {
+    private Long milestoneId;
     private Long projectId;
     private String milestoneName;
     @JsonFormat(pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
