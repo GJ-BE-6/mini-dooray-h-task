@@ -1,0 +1,87 @@
+## Project Controller
+
+### 프로젝트 생성
+POST localhost:8080/projects/users/admin
+Content-Type: application/json
+
+{
+  "name" : "TestProject1",
+  "status" : "활성"
+}
+
+### 모든 프로젝트 조회
+GET localhost:8080/projects
+
+### 특정 프로젝트 조회
+GET localhost:8080/projects/1
+
+### 특정 유저가 가진 프로젝트 조회
+GET localhost:8080/projects/users/admin
+
+### 특정 프로젝트 수정
+PUT localhost:8080/projects
+Content-Type: application/json
+
+{
+  "id" : 1,
+  "name" : "TestProject",
+  "status" : "휴면"
+}
+
+### 특정 프로젝트 삭제
+DELETE localhost:8080/projects/1
+
+## -----------------------------------------------------------------------------------------------------
+## ProjectMemeber Controller
+
+### 특정 프로젝트에 멤버 등록
+POST localhost:8080/projects/1/members
+Content-Type: application/json
+
+{
+  "userId" : "member1"
+}
+
+### 특정 프로젝트에서 멤버 목록 조회
+GET localhost:8080/projects/1/members
+
+### 특정 프로젝트에서 특정 멤버 삭제
+DELETE localhost:8080/projects/1/members/member1
+
+
+## -----------------------------------------------------------------------------------------------------
+## Task Controller
+
+### 특정 프로젝트에 Task 등록
+POST localhost:8080/projects/tasks
+Content-Type: application/json
+
+{
+  "taskName" : "Task",
+  "taskDescription": "text",
+  "taskStatus" : "활성",
+  "projectId": 1,
+  "userId": "member1"
+}
+
+### 특정 프로젝트에서 Task 목록 조회
+GET localhost:8080/projects/1/tasks
+
+### 특정 Task 조회
+GET localhost:8080/projects/tasks/1
+
+### 특정 Task 수정
+PUT localhost:8080/projects/tasks
+Content-Type: application/json
+
+{
+  "taskId" : 1,
+  "taskName" : "Task test",
+  "taskDescription": "text text text",
+  "taskStatus" : "활성",
+  "projectId": 1,
+  "userId": "member1"
+}
+
+### 특정 Task 삭제
+DELETE localhost:8080/projects/tasks/1

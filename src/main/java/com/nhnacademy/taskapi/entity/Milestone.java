@@ -32,11 +32,11 @@ public class Milestone {
 
     @Setter
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Setter
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "task_id")
     private Task task;
 

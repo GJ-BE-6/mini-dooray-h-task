@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -30,7 +32,7 @@ public class Task {
 
     @Setter
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Setter
@@ -38,9 +40,9 @@ public class Task {
     private String userId;
 
     // todo Task : task_tags, comments @OneToMany mapped
+
     // todo Task : milestones @OneToOne mapped
 
-    // todo Task : 생성자 생성
     public Task(String name, String description, String status, Project project, String userId) {
         this.name = name;
         this.description = description;

@@ -1,10 +1,11 @@
 package com.nhnacademy.taskapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -23,11 +24,21 @@ public class Project {
 
     @Setter
     @Column(name = "project_status", length = 50, nullable = false)
-    private String status;
+    private String status;  // Status : Active, Dormant, End
 
-    // todo Project : tag, project_members, task, milestones @OneToMany mapped
 
-    // todo Project : 생성자 생성
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    private List<ProjectMember> projectMembers;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    private List<Task> tasks;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    private List<Tag> tags;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    private List<Milestone> milestones;
+
     public Project(String name, String status) {
         this.name = name;
         this.status = status;
