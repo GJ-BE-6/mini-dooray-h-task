@@ -29,18 +29,18 @@ DELETE http://localhost:8080/milestones/{{milestoneId}}
 
 
 
-### task에 milestone 추가
+### post task에 milestone 추가
 POST http://localhost:8080/milestones/{{milestoneId}}/tasks/{{taskId}}
 
-### task에 milestone 삭제
+### delete task에 milestone 삭제
 @taskId = 1
-DELETE http://localhost:8080/milestones/{{milestoneId}}/tasks/{{taskId}}
+DELETE http://localhost:8080/milestones/{{milestoneId}}
 
 
 
 ### project milestone 불러오기
 @projectId =1
-GET http://localhost:8080/project-milestones/{{projectId}}
+GET http://localhost:8080/projects/{{projectId}}/milestones
 
 ### task milestone 불러오기
-GET http://localhost:8080/task-milestones/{{taskId}}
+GET http://localhost:8080/tasks/{{taskId}}/milestone

@@ -3,7 +3,6 @@ package com.nhnacademy.taskapi.controller;
 import com.nhnacademy.taskapi.dto.TagDTO;
 import com.nhnacademy.taskapi.dto.TaskTagDTO;
 import com.nhnacademy.taskapi.entity.Tag;
-import com.nhnacademy.taskapi.entity.TaskTag;
 import com.nhnacademy.taskapi.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class TagController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/tags/{projectId}")
+    @GetMapping("/projects/{projectId}/tags")
     public ResponseEntity<List<TagDTO>> getTagByProjectId(@PathVariable("projectId") Long projectId) {
         List<TagDTO> resp = tagService.getTagsByProjectId(projectId).stream()
                 .map(tag -> new TagDTO(tag.getProject().getId(), tag.getName()))
@@ -51,19 +50,19 @@ public class TagController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/task-tags")
+    @PostMapping("/tasks/tag")
     public ResponseEntity<Void> setTagToTask(@RequestBody TaskTagDTO taskTagDTO) {
         tagService.setTagToTask(taskTagDTO.getTaskId(), taskTagDTO.getTagId());
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/task-tags")
+    @DeleteMapping("/tasks/tag")
     public ResponseEntity<Void> deleteTagFromTask(@RequestBody TaskTagDTO taskTagDTO) {
         tagService.deleteTagFromTask(taskTagDTO.getTaskId(), taskTagDTO.getTagId());
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/task-tags/{taskId}")
+    @GetMapping("/tasks/{taskId}/tags")
     public ResponseEntity<List<TagDTO>> getTaskTagsByTaskId(@PathVariable("taskId") Long taskId) {
         List<TagDTO> tags = tagService.getTagsByTaskId(taskId);
         return ResponseEntity.ok(tags);

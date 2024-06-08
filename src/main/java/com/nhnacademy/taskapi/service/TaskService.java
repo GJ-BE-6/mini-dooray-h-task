@@ -84,7 +84,7 @@ public class TaskService {
 
         // milestone 연결 해제
         Milestone milestone = milestoneRepository.findMilestoneByTaskId(taskId);
-        milestoneService.deleteMilestoneFromTask(milestone.getId(), taskId);
+        milestoneService.deleteMilestoneFromTask(milestone.getId());
         log.info("milestone get task : {}", milestone.getTask());
 
         entityManager.flush();

@@ -65,13 +65,9 @@ public class MilestoneService {
         return milestoneRepository.save(milestone);
     }
 
-    public void deleteMilestoneFromTask(long milestoneId, long taskId) {
+    public void deleteMilestoneFromTask(long milestoneId) {
         Milestone milestone = milestoneRepository.findById(milestoneId).orElseThrow();
-
-        log.info("getTask.getid : {}, taskId : {}", milestone.getTask().getId(), taskId);
-        if (milestone.getTask().getId() == taskId) {
-            milestone.setTask(null);
-        }
+        milestone.setTask(null);
         milestoneRepository.save(milestone);
     }
 }

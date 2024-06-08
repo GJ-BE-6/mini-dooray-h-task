@@ -25,14 +25,14 @@ DELETE http://localhost:8080/tags/{{tagId}}
 
 ### get tags (projectId)
 @projectId =1
-GET http://localhost:8080/tags/{{projectId}}
+GET http://localhost:8080/projects/{{projectId}}/tags
 
 ### get tags (taskId)
 @taskId =1
-GET http://localhost:8080/task-tags/{{taskId}}
+GET http://localhost:8080/tasks/{{taskId}}/tags
 
-### task에 tag 등록
-POST http://localhost:8080/task-tags
+### post task에 tag 등록
+POST http://localhost:8080/tasks/tag
 Content-Type: application/json
 
 {
@@ -40,8 +40,8 @@ Content-Type: application/json
   "tagId": 5
 }
 
-### task에 tag 삭제
-DELETE http://localhost:8080/task-tags
+### delete task에 tag 삭제
+DELETE http://localhost:8080/tasks/tag
 Content-Type: application/json
 
 {

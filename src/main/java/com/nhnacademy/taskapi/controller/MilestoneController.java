@@ -76,13 +76,13 @@ public class MilestoneController {
         return ResponseEntity.ok(resp);
     }
 
-    @DeleteMapping("/milestones/{milestoneId}/tasks/{taskId}")
-    public ResponseEntity<Void> deleteMilestoneFromTask(@PathVariable("milestoneId") Long milestoneId, @PathVariable("taskId") Long taskId) {
-        milestoneService.deleteMilestoneFromTask(milestoneId, taskId);
+    @DeleteMapping("/tasks/milestones/{milestoneId}")
+    public ResponseEntity<Void> deleteMilestoneFromTask(@PathVariable("milestoneId") Long milestoneId) {
+        milestoneService.deleteMilestoneFromTask(milestoneId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/project-milestones/{projectId}")
+    @GetMapping("/projects/{projectId}/milestones")
     public ResponseEntity<List<MilestoneDTO>> getMilestones(@PathVariable("projectId") Long projectId) {
         List<MilestoneDTO> resp = milestoneService.getMilestoneByProjectId(projectId).stream()
                 .map(milestone -> MilestoneDTO.builder()
@@ -97,7 +97,7 @@ public class MilestoneController {
         return ResponseEntity.ok(resp);
     }
 
-    @GetMapping("/task-milestones/{taskId}")
+    @GetMapping("/tasks/{taskId}/milestone")
     public ResponseEntity<MilestoneDTO> getMilestoneByTaskId(@PathVariable("taskId") Long taskId) {
         Milestone milestone = milestoneService.getMilestoneByTaskId(taskId);
         MilestoneDTO resp = MilestoneDTO.builder()
