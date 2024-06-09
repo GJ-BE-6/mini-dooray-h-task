@@ -1,3 +1,7 @@
+@tagId = 4
+@projectId =1
+@taskId =1
+
 ### create tag
 POST http://localhost:8080/tags
 Content-Type: application/json
@@ -8,7 +12,6 @@ Content-Type: application/json
 }
 
 ### update tag
-@tagId = 4
 PUT http://localhost:8080/tags/{{tagId}}
 Content-Type: application/json
 
@@ -24,11 +27,9 @@ DELETE http://localhost:8080/tags/{{tagId}}
 
 
 ### get tags (projectId)
-@projectId =1
 GET http://localhost:8080/projects/{{projectId}}/tags
 
 ### get tags (taskId)
-@taskId =1
 GET http://localhost:8080/tasks/{{taskId}}/tags
 
 ### post task에 tag 등록
