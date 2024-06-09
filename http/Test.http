@@ -1,11 +1,11 @@
 ## Project Controller
 
 ### 프로젝트 생성
-POST localhost:8080/projects/users/test1
+POST localhost:8082/projects/users/test1
 Content-Type: application/json
 
 {
-  "name" : "TestProject1",
+  "name" : "TestProject11",
   "status" : "활성"
 }
 
