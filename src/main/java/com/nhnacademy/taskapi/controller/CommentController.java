@@ -5,12 +5,14 @@ import com.nhnacademy.taskapi.dto.CommentResponseDTO;
 import com.nhnacademy.taskapi.entity.Comment;
 import com.nhnacademy.taskapi.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Comment API", description = "코멘트 관련 API 입니다.")
 @RestController
 public class CommentController {
     @Autowired

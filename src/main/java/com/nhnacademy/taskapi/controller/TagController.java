@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@io.swagger.v3.oas.annotations.tags.Tag(name = "Tag API", description = "태그 관련 API 입니다.")
 @RestController
 public class TagController {
     @Autowired

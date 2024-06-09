@@ -5,6 +5,7 @@ import com.nhnacademy.taskapi.entity.Milestone;
 import com.nhnacademy.taskapi.entity.Task;
 import com.nhnacademy.taskapi.service.MilestoneService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Milestone API", description = "마일스톤 관련 API 입니다.")
 @RestController()
 public class MilestoneController {
     @Autowired

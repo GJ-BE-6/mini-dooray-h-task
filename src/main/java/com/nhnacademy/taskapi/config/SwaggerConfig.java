@@ -19,11 +19,11 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi api() {
-        String[] paths = {"/comments/**", "/milestones/**", "/tags/**", "/tasks/**", "/projects/"};
+//        String[] paths = {"/comments/**", "/milestones/**", "/tags/**", "/tasks/**", "/projects/"};
         String[] packagesToScan = {"com.nhnacademy.taskapi"};
         return GroupedOpenApi.builder()
                 .group("task-api")
-                .pathsToMatch(paths)
+//                .pathsToMatch(paths)
                 .packagesToScan(packagesToScan)
                 .build();
     }
