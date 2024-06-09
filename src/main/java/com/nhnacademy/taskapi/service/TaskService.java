@@ -95,15 +95,21 @@ public class TaskService {
 
         // tag 연결 해제
         List<Tag> tags = tagRepository.findAllByProjectId(task.getProject().getId());
-        for (Tag tag : tags) {
-            tagService.deleteTagFromTask(taskId, tag.getId());
-            // log.info("Delete tagId: {}", );
+
+        if (Objects.nonNull(tags)) {
+            for (Tag tag : tags) {
+                tagService.deleteTagFromTask(taskId, tag.getId());
+                // log.info("Delete tagId: {}", );
+            }
         }
 
         // milestone 연결 해제
         Milestone milestone = milestoneRepository.findMilestoneByTaskId(taskId);
-        milestoneService.deleteMilestoneFromTask(milestone.getId());
-        log.info("milestone get task : {}", milestone.getTask());
+
+        if (Objects.nonNull(milestone)) {
+            milestoneService.deleteMilestoneFromTask(milestone.getId());
+            log.info("milestone get task : {}", milestone.getTask());
+        }
 
         entityManager.flush();
         entityManager.clear();
