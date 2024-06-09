@@ -3,23 +3,28 @@ package com.nhnacademy.taskapi.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration    // 스프링 실행시 설정파일 읽어드리기 위한 어노테이션
+
+@Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .components(new Components())
-                .info(apiInfo());
+                .info(new Info().title("Task API").version("1.0").description("springdoc-openapi"));
     }
 
-    private Info apiInfo() {
-        return new Info()
-                .title("Task API")
-                .description("Task API Documentation")
-                .version("1.0.0");
+    @Bean
+    public GroupedOpenApi api() {
+        String[] paths = {"/comments/**", "/milestones/**", "/tags/**", "/tasks/**", "/projects/"};
+        String[] packagesToScan = {"com.nhnacademy.taskapi"};
+        return GroupedOpenApi.builder()
+                .group("task-api")
+                .pathsToMatch(paths)
+                .packagesToScan(packagesToScan)
+                .build();
     }
 }

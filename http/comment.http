@@ -1,7 +1,8 @@
 @taskId =1
+@commentId =4
 
 ### create comment
-POST http://localhost:8080/tasks/{{taskId}}/comments
+POST http://localhost:8082/tasks/{{taskId}}/comments
 Content-Type: application/json
 
 {
@@ -10,11 +11,11 @@ Content-Type: application/json
 }
 
 ### get comments (taskId)
-GET http://localhost:8080/tasks/{{taskId}}/comments
+GET http://localhost:8082/tasks/{{taskId}}/comments
 
 ### update comment
-@commentId =4
-PUT http://localhost:8080/comments/{{commentId}}
+
+PUT http://localhost:8082/comments/{{commentId}}
 Content-Type: application/json
 
 {
@@ -22,4 +23,4 @@ Content-Type: application/json
 }
 
 ###delete comment
-DELETE http://localhost:8080/comments/{{commentId}}
+DELETE http://localhost:8082/comments/{{commentId}}
