@@ -1,5 +1,9 @@
+@milestoneId =5
+@taskId = 1
+@projectId =1
+
 ### create milestone
-POST http://localhost:8080/milestones
+POST http://localhost:8082/milestones
 Content-Type: application/json
 
 {
@@ -10,11 +14,10 @@ Content-Type: application/json
 }
 
 ### get (milestoneId)
-@milestoneId =5
-GET http://localhost:8080/milestones/{{milestoneId}}
+GET http://localhost:8082/milestones/{{milestoneId}}
 
 ### update milestone
-PUT http://localhost:8080/milestones/{{milestoneId}}
+PUT http://localhost:8082/milestones/{{milestoneId}}
 Content-Type: application/json
 
 {
@@ -25,22 +28,20 @@ Content-Type: application/json
 }
 
 ###delete milestone
-DELETE http://localhost:8080/milestones/{{milestoneId}}
+DELETE http://localhost:8082/milestones/{{milestoneId}}
 
 
 
 ### post task에 milestone 추가
-POST http://localhost:8080/milestones/{{milestoneId}}/tasks/{{taskId}}
+POST http://localhost:8082/milestones/{{milestoneId}}/tasks/{{taskId}}
 
 ### delete task에 milestone 삭제
-@taskId = 1
-DELETE http://localhost:8080/milestones/{{milestoneId}}
+DELETE http://localhost:8082/milestones/{{milestoneId}}
 
 
 
 ### project milestone 불러오기
-@projectId =1
-GET http://localhost:8080/projects/{{projectId}}/milestones
+GET http://localhost:8082/projects/{{projectId}}/milestones
 
 ### task milestone 불러오기
-GET http://localhost:8080/tasks/{{taskId}}/milestone
+GET http://localhost:8082/tasks/{{taskId}}/milestone
