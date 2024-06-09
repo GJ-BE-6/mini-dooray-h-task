@@ -9,4 +9,5 @@ public class CommentResponseDTO {
     private String comment;
     private String userId;
     private Long taskId;
+    private Long commentId;
 }

@@ -18,7 +18,7 @@ public class CommentController {
     @GetMapping("/tasks/{taskId}/comments")
     public ResponseEntity<List<CommentResponseDTO>> getComments(@PathVariable Long taskId) {
         List<CommentResponseDTO> comments = commentService.getComments(taskId).stream()
-                .map(comment -> new CommentResponseDTO(comment.getContent(), comment.getUserId(), comment.getTask().getId()))
+                .map(comment -> new CommentResponseDTO(comment.getContent(), comment.getUserId(), comment.getTask().getId(), comment.getId()))
                 .toList();
         return ResponseEntity.ok(comments);
     }
@@ -26,13 +26,13 @@ public class CommentController {
     @PostMapping("/tasks/{taskId}/comments")
     public ResponseEntity<CommentResponseDTO> createComment(@PathVariable("taskId") Long taskId, @RequestBody CommentDTO commentDTO){
         Comment createdComment = commentService.createComment(taskId, commentDTO);
-        return ResponseEntity.ok(new CommentResponseDTO(createdComment.getContent(), createdComment.getUserId(), createdComment.getTask().getId()));
+        return ResponseEntity.ok(new CommentResponseDTO(createdComment.getContent(), createdComment.getUserId(), createdComment.getTask().getId(), createdComment.getId()));
     }
 
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable("commentId") Long commentId, @RequestBody CommentDTO commentDTO){
         Comment updatedComment = commentService.updateComment(commentId, commentDTO);
-        return ResponseEntity.ok(new CommentResponseDTO(updatedComment.getContent(), updatedComment.getUserId(), updatedComment.getTask().getId()));
+        return ResponseEntity.ok(new CommentResponseDTO(updatedComment.getContent(), updatedComment.getUserId(), updatedComment.getTask().getId(), updatedComment.getId()));
     }
 
     @DeleteMapping("/comments/{commentId}")
