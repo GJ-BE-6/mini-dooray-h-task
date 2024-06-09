@@ -1,6 +1,7 @@
 package com.nhnacademy.taskapi.controller;
 
 import com.nhnacademy.taskapi.dto.TagDTO;
+import com.nhnacademy.taskapi.dto.TagResponseDTO;
 import com.nhnacademy.taskapi.dto.TaskTagDTO;
 import com.nhnacademy.taskapi.entity.Tag;
 import com.nhnacademy.taskapi.service.TagService;
@@ -43,9 +44,9 @@ public class TagController {
     }
 
     @GetMapping("/projects/{projectId}/tags")
-    public ResponseEntity<List<TagDTO>> getTagByProjectId(@PathVariable("projectId") Long projectId) {
-        List<TagDTO> resp = tagService.getTagsByProjectId(projectId).stream()
-                .map(tag -> new TagDTO(tag.getProject().getId(), tag.getName()))
+    public ResponseEntity<List<TagResponseDTO>> getTagByProjectId(@PathVariable("projectId") Long projectId) {
+        List<TagResponseDTO> resp = tagService.getTagsByProjectId(projectId).stream()
+                .map(tag -> new TagResponseDTO(tag.getProject().getId(), tag.getName(), tag.getId()))
                 .toList();
         return ResponseEntity.ok(resp);
     }
@@ -63,8 +64,8 @@ public class TagController {
     }
 
     @GetMapping("/tasks/{taskId}/tags")
-    public ResponseEntity<List<TagDTO>> getTaskTagsByTaskId(@PathVariable("taskId") Long taskId) {
-        List<TagDTO> tags = tagService.getTagsByTaskId(taskId);
+    public ResponseEntity<List<TagResponseDTO>> getTaskTagsByTaskId(@PathVariable("taskId") Long taskId) {
+        List<TagResponseDTO> tags = tagService.getTagsByTaskId(taskId);
         return ResponseEntity.ok(tags);
     }
 }

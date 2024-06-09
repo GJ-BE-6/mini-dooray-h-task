@@ -1,6 +1,7 @@
 package com.nhnacademy.taskapi.service;
 
 import com.nhnacademy.taskapi.dto.TagDTO;
+import com.nhnacademy.taskapi.dto.TagResponseDTO;
 import com.nhnacademy.taskapi.entity.Project;
 import com.nhnacademy.taskapi.entity.Tag;
 import com.nhnacademy.taskapi.entity.Task;
@@ -48,11 +49,11 @@ public class TagService {
         return tagRepository.findAllByProjectId(projectId);
     }
 
-    public List<TagDTO> getTagsByTaskId(Long taskId) {
+    public List<TagResponseDTO> getTagsByTaskId(Long taskId) {
         List<TaskTag> taskTags = taskTagRepository.findByTaskId(taskId);
-        List<TagDTO> tags = new ArrayList<>();
+        List<TagResponseDTO> tags = new ArrayList<>();
         for (TaskTag taskTag : taskTags) {
-            tags.add(new TagDTO(taskTag.getTask().getProject().getId(), taskTag.getTag().getName()));
+            tags.add(new TagResponseDTO(taskTag.getTask().getProject().getId(), taskTag.getTag().getName(), taskTag.getTag().getId()));
         }
         return tags;
     }
