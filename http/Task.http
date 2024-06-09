@@ -1,0 +1,33 @@
+### 특정 프로젝트에 Task 등록
+POST localhost:8080/projects/tasks
+Content-Type: application/json
+
+{
+  "taskName" : "Task",
+  "taskDescription": "text",
+  "taskStatus" : "활성",
+  "projectId": 1,
+  "userId": "member1"
+}
+
+### 특정 프로젝트에서 Task 목록 조회
+GET localhost:8080/projects/1/tasks
+
+### 특정 Task 조회
+GET localhost:8080/projects/tasks/1
+
+### 특정 Task 수정
+PUT localhost:8080/projects/tasks
+Content-Type: application/json
+
+{
+  "taskId" : 1,
+  "taskName" : "Task test",
+  "taskDescription": "text text text",
+  "taskStatus" : "활성",
+  "projectId": 1,
+  "userId": "member1"
+}
+
+### 특정 Task 삭제
+DELETE localhost:8080/projects/tasks/1

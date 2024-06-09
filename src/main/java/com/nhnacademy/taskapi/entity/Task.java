@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "tasks")
 public class Task {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")

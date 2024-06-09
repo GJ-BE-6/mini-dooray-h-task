@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 @Table(name = "milestones")
 public class Milestone {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "milestone_id")

@@ -1,7 +1,9 @@
 package com.nhnacademy.taskapi.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class TaskCreateDto {
     private String taskName;

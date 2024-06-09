@@ -1,0 +1,30 @@
+### 프로젝트 생성
+POST localhost:8080/projects/users/test1
+Content-Type: application/json
+
+{
+  "name" : "TestProject1",
+  "status" : "활성"
+}
+
+### 모든 프로젝트 조회
+GET localhost:8080/projects
+
+### 특정 프로젝트 조회
+GET localhost:8080/projects/1
+
+### 특정 유저가 가진 프로젝트 조회
+GET localhost:8080/projects/users/admin
+
+### 특정 프로젝트 수정
+PUT localhost:8080/projects
+Content-Type: application/json
+
+{
+  "id" : 1,
+  "name" : "TestProject",
+  "status" : "휴면"
+}
+
+### 특정 프로젝트 삭제
+DELETE localhost:8080/projects/1
