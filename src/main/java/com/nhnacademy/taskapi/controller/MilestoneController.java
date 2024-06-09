@@ -100,6 +100,9 @@ public class MilestoneController {
     @GetMapping("/tasks/{taskId}/milestone")
     public ResponseEntity<MilestoneDTO> getMilestoneByTaskId(@PathVariable("taskId") Long taskId) {
         Milestone milestone = milestoneService.getMilestoneByTaskId(taskId);
+        if (milestone == null) {
+            return ResponseEntity.noContent().build();
+        }
         MilestoneDTO resp = MilestoneDTO.builder()
                 .milestoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
