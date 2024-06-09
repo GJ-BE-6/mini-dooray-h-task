@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,12 +38,18 @@ public class TaskService {
     // Task 등록 (projectId를 가지고)
     @Transactional
     public TaskDto createTask(TaskCreateDto taskCreateDto) {
-        Project project = projectRepository.findById(taskCreateDto.getProjectId())
-            .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+
+        Optional<Project> optionalProject = projectRepository.findById(taskCreateDto.getProjectId());
+
+        if (optionalProject.isEmpty()) {
+            return null;
+        }
+
+        Project project = optionalProject.get();
 
         ProjectMemberPk projectMemberPk = new ProjectMemberPk(taskCreateDto.getUserId(), taskCreateDto.getProjectId());
         if (!projectMemberRepository.existsById(projectMemberPk)) {
-            throw new IllegalArgumentException("User not found");
+            return null;
         }
 
         Task task = new Task(taskCreateDto.getTaskName(), taskCreateDto.getTaskDescription(), taskCreateDto.getTaskStatus(), project, taskCreateDto.getUserId());
@@ -54,11 +62,17 @@ public class TaskService {
     @Transactional
     public TaskDto updateTask(Long taskId, String name, String description, String status, Long projectId) {
 
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
-        projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if (optionalTask.isEmpty()) {
+            return null;
+        }
 
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        if (optionalProject.isEmpty()) {
+            return null;
+        }
+
+        Task task = optionalTask.get();
         task.setName(name);
         task.setDescription(description);
         task.setStatus(status);
@@ -72,14 +86,18 @@ public class TaskService {
     @Transactional
     public void deleteTask(Long taskId) {
 
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if (optionalTask.isEmpty()) {
+            return;
+        }
+
+        Task task = optionalTask.get();
 
         // tag 연결 해제
         List<Tag> tags = tagRepository.findAllByProjectId(task.getProject().getId());
         for (Tag tag : tags) {
             tagService.deleteTagFromTask(taskId, tag.getId());
-//            log.info("Delete tagId: {}", );
+            // log.info("Delete tagId: {}", );
         }
 
         // milestone 연결 해제
@@ -96,13 +114,15 @@ public class TaskService {
     // Task 목록
     public List<TaskDto> getTasksByProjectId(Long projectId) {
 
-        projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        if (optionalProject.isEmpty()) {
+            return Collections.emptyList();
+        }
 
         List<Task> tasks = taskRepository.findByProjectId(projectId);
 
         if (Objects.isNull(tasks) || tasks.isEmpty()) {
-            throw new IllegalArgumentException("Task not found");
+            return Collections.emptyList();
         }
 
         return tasks.stream()
@@ -112,8 +132,14 @@ public class TaskService {
 
     // Task 내용
     public TaskDto getTaskById(Long taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+
+        if (optionalTask.isEmpty()) {
+            return null;
+        }
+
+        Task task = optionalTask.get();
+
         return new TaskDto(task);
     }
 }

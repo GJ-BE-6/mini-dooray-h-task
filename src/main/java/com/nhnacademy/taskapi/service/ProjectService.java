@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,7 @@ public class ProjectService {
         List<Project> projects = projectRepository.findAll();
 
         if (projects.isEmpty()) {
-            throw new IllegalArgumentException("Project not found");
+            return null;
         }
 
         return projects.stream()
@@ -37,7 +38,7 @@ public class ProjectService {
         List<Project> projects = projectRepository.findDistinctByProjectMembers_ProjectMemberPk_UserId(userId);//findProjectByUserId(userId);
 
         if (Objects.isNull(projects) || projects.isEmpty()) {
-            throw new IllegalArgumentException("Project not found");
+            return null;
         }
 
         return projects.stream()
@@ -48,10 +49,15 @@ public class ProjectService {
     // projectId에 해당하는 프로젝트 불러오기
     public ProjectDto getProjectByProjectId(Long projectId) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
-        return new ProjectDto(projectId, project.getName(), project.getStatus());
+        if (optionalProject.isPresent()) {
+            Project project = optionalProject.get();
+
+            return new ProjectDto(projectId, project.getName(), project.getStatus());
+        } else {
+            return null;
+        }
     }
 
     // 프로젝트 생성
@@ -66,24 +72,29 @@ public class ProjectService {
     @Transactional
     public ProjectDto updateProject(Long projectId, String name, String status) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
-        project.setName(name);
-        project.setStatus(status);
+        if (optionalProject.isPresent()) {
+            Project project = optionalProject.get();
+            project.setName(name);
+            project.setStatus(status);
 
-        Project updatedProject = projectRepository.save(project);
+            Project updatedProject = projectRepository.save(project);
 
-        return new ProjectDto(updatedProject.getId(), updatedProject.getName(), updatedProject.getStatus());
+            return new ProjectDto(updatedProject.getId(), updatedProject.getName(), updatedProject.getStatus());
+        } else {
+            return null;
+        }
     }
 
     // 프로젝트 삭제
     @Transactional
     public void deleteProject(Long projectId) {
 
-        projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
-        projectRepository.deleteById(projectId);
+        if (optionalProject.isPresent()) {
+            projectRepository.deleteById(projectId);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ## Project Controller
 
 ### 프로젝트 생성
-POST localhost:8080/projects/users/admin
+POST localhost:8080/projects/users/test1
 Content-Type: application/json
 
 {

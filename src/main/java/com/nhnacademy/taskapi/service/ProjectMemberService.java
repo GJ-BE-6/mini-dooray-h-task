@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,67 +26,68 @@ public class ProjectMemberService {
     @Transactional
     public ProjectMemberDto addProjectMember(Long projectId, String userId) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
+        if (optionalProject.isPresent()) {
+            Project project = optionalProject.get();
 
-        // 이미 멤버로 등록되어 있는지 확인
-        if (projectMemberRepository.existsByProjectAndProjectMemberPkUserId(project, userId)) {
-            throw new IllegalArgumentException("User is already a member of the project");
+            // 이미 멤버로 등록되어 있는지 확인
+            if (projectMemberRepository.existsByProjectAndProjectMemberPkUserId(project, userId)) {
+                return null;
+            }
+
+            // Role 임시로 "Member"로 설정
+            ProjectMember projectMember = new ProjectMember("Member", userId, project);
+            projectMemberRepository.save(projectMember);
+
+            return new ProjectMemberDto(userId, projectId, "Member");
+        } else {
+            return null;
         }
-
-
-        // Role 임시로 "Member"로 설정
-        ProjectMember projectMember = new ProjectMember("Member", userId, project);
-        projectMemberRepository.save(projectMember);
-
-        return new ProjectMemberDto(userId, projectId, "Member");
     }
 
     // Project 관리자 등록
     @Transactional
     public ProjectMemberDto addProjectAdmin(Long projectId, String userId) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
-        // Role 임시로 "Admin"로 설정
-        ProjectMember projectMember = new ProjectMember("Admin", userId, project);
-        projectMemberRepository.save(projectMember);
+        if (optionalProject.isPresent()) {
+            Project project = optionalProject.get();
 
-        return new ProjectMemberDto(userId, projectId, "Admin");
+            // Role 임시로 "Admin"로 설정
+            ProjectMember projectMember = new ProjectMember("Admin", userId, project);
+            projectMemberRepository.save(projectMember);
+
+            return new ProjectMemberDto(userId, projectId, "Admin");
+        } else {
+            return null;
+        }
     }
 
     // Project 멤버 조회
     public List<ProjectMemberDto> getProjectMembersByProjectId(Long projectId) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-
-        List<ProjectMember> projectMembers = projectMemberRepository.findByProject(project);
-
-        if (projectMembers.isEmpty()) {
-            throw new IllegalArgumentException("Project members not found");
-        }
-
-        return projectMembers.stream()
-                .map(member -> new ProjectMemberDto(
-                        member.getProjectMemberPk().getUserId(),
-                        member.getProject().getId(),
-                        member.getRole()))
-                .collect(Collectors.toList());
+        return projectRepository.findById(projectId)
+                .map(project -> {
+                    List<ProjectMember> projectMembers = projectMemberRepository.findByProject(project);
+                    return projectMembers.stream()
+                            .map(member -> new ProjectMemberDto(
+                                    member.getProjectMemberPk().getUserId(),
+                                    member.getProject().getId(),
+                                    member.getRole()))
+                            .collect(Collectors.toList());
+                })
+                .orElse(Collections.emptyList());
     }
 
     // Project 멤버 삭제
     public void deleteProjectMember(Long projectId, String userId) {
 
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-
         ProjectMemberPk projectMemberPk = new ProjectMemberPk(userId, projectId);
-        ProjectMember projectMember = projectMemberRepository.findById(projectMemberPk)
-                .orElseThrow(() -> new IllegalArgumentException("Project member not found"));
 
-        projectMemberRepository.delete(projectMember);
+        if (projectMemberRepository.existsById(projectMemberPk)) {
+            projectMemberRepository.deleteById(projectMemberPk);
+        }
     }
 }
