@@ -16,6 +16,12 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @GetMapping("/tags/{tagId}")
+    public ResponseEntity<TagResponseDTO> getTag(@PathVariable Long tagId) {
+        Tag tag = tagService.getTagByTagId(tagId);
+        return ResponseEntity.ok(new TagResponseDTO(tag.getProject().getId(), tag.getName(), tag.getId()));
+    }
+
     @PostMapping("/tags")
     public ResponseEntity<TagDTO> createTag(@RequestBody TagDTO tagDTO) {
         Tag createdTag = tagService.createTag(tagDTO);
