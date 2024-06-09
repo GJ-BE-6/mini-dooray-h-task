@@ -72,4 +72,8 @@ public class TagService {
         taskTagRepository.delete(new TaskTag(tag, task));
     }
 
+    public Tag getTagByTagId(Long tagId) {
+        return tagRepository.findById(tagId).orElseThrow();
+    }
+
 }
